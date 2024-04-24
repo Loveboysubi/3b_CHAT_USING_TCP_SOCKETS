@@ -1,4 +1,6 @@
 # 3b.CREATION FOR CHAT USING TCP SOCKETS
+## NAME : Subishesh P
+## REG NUMBER : 212223230220
 ## AIM
 To write a python program for creating Chat using TCP Sockets Links.
 ## ALGORITHM:
@@ -7,71 +9,39 @@ To write a python program for creating Chat using TCP Sockets Links.
 3. Send message to the client and receive the message from the client using the Socket module in
  server
 4. Send and receive the message using the send function in socket.
-## PROGRAM:
-## Server:
+## PROGRAM
+client :
 ```
 import socket
-import threading
-
-def handle_client(client_socket):
-    while True:
-        try:
-            # Receive message from client
-            message = client_socket.recv(1024).decode()
-            if not message:
-                break
-            print(f"Received message: {message}")
-
-            # Send message back to client
-            client_socket.sendall(message.encode())
-        except:
-            break
-
-    client_socket.close()
-
-def start_server():
-    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_socket.bind(('127.0.0.1', 5555))
-    server_socket.listen(5)
-    print("Server started, listening on port 5555")
-
-    while True:
-        client_socket, addr = server_socket.accept()
-        print(f"Accepted connection from {addr}")
-        client_handler = threading.Thread(target=handle_client, args=(client_socket,))
-        client_handler.start()
-
-start_server()
-
+s=socket.socket()
+s.connect(('localhost',8000))
+while True:
+ msg=input("Client > ")
+ s.send(msg.encode())
+ print("Server > ",s.recv(1024).decode())
 ```
-### Client:
+server:
 ```
 import socket
-
-def start_client():
-    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client_socket.connect(('127.0.0.1', 5555))
-
-    while True:
-        message = input("Enter message to send to server (or type 'exit' to quit): ")
-        if message.lower() == 'exit':
-            break
-        client_socket.sendall(message.encode())
-
-        # Receive response from server
-        response = client_socket.recv(1024).decode()
-        print(f"Received from server: {response}")
-
-    client_socket.close()
-
-start_client()
-
+s=socket.socket()
+s.bind(('localhost',8000))
+s.listen(5)
+c,addr=s.accept()
+while True:
+ ClientMessage=c.recv(1024).decode()
+ print("Client > ",ClientMessage)
+ msg=input("Server > ")
+ c.send(msg.encode())
 ```
 ## OUPUT:
-## Server:
-![server 2](https://github.com/SUBBIAH1904/3b_CHAT_USING_TCP_SOCKETS/assets/147473604/d2591855-6acd-4919-b2ea-576b16ce3f48)
-## Client:
-![client 2](https://github.com/SUBBIAH1904/3b_CHAT_USING_TCP_SOCKETS/assets/147473604/e7e6b228-4b03-4cb3-89a7-a4254be93126)
+client:
+![3bclient](https://github.com/Prasanavausdevan/3b_CHAT_USING_TCP_SOCKETS/assets/144870579/1c0d469d-5779-465a-904c-24a6e04c9963)
+
+
+server:
+
+![3bserver](https://github.com/Prasanavausdevan/3b_CHAT_USING_TCP_SOCKETS/assets/144870579/39b048b9-d353-4a6e-b84c-5322edc700af)
+
 ## RESULT
 Thus, the python program for creating Chat using TCP Sockets Links was successfully 
 created and executed.
